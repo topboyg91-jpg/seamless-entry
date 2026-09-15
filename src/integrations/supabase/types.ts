@@ -14,7 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          cover_url: string | null
+          created_at: string
+          date_label: string | null
+          description: string | null
+          id: string
+          slug: string
+          sort_order: number
+          time_label: string | null
+          title: string
+          updated_at: string
+          venue: string | null
+          voting_open: boolean
+        }
+        Insert: {
+          cover_url?: string | null
+          created_at?: string
+          date_label?: string | null
+          description?: string | null
+          id?: string
+          slug: string
+          sort_order?: number
+          time_label?: string | null
+          title: string
+          updated_at?: string
+          venue?: string | null
+          voting_open?: boolean
+        }
+        Update: {
+          cover_url?: string | null
+          created_at?: string
+          date_label?: string | null
+          description?: string | null
+          id?: string
+          slug?: string
+          sort_order?: number
+          time_label?: string | null
+          title?: string
+          updated_at?: string
+          venue?: string | null
+          voting_open?: boolean
+        }
+        Relationships: []
+      }
+      models: {
+        Row: {
+          bio: string | null
+          city: string | null
+          created_at: string
+          event_id: string
+          id: string
+          image_url: string | null
+          name: string
+          number: string | null
+          sort_order: number
+          updated_at: string
+          votes: number
+        }
+        Insert: {
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          event_id: string
+          id?: string
+          image_url?: string | null
+          name: string
+          number?: string | null
+          sort_order?: number
+          updated_at?: string
+          votes?: number
+        }
+        Update: {
+          bio?: string | null
+          city?: string | null
+          created_at?: string
+          event_id?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          number?: string | null
+          sort_order?: number
+          updated_at?: string
+          votes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "models_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          amount: number
+          created_at: string
+          event_id: string
+          id: string
+          model_id: string
+          phone: string | null
+          quantity: number
+          status: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          event_id: string
+          id?: string
+          model_id: string
+          phone?: string | null
+          quantity?: number
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          event_id?: string
+          id?: string
+          model_id?: string
+          phone?: string | null
+          quantity?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votes_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
