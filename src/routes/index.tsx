@@ -34,12 +34,12 @@ function Home() {
     <SiteLayout>
       <section className="stage-hero">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <p className="kicker">{content?.hero_kicker ?? "LIVE VOTING"}</p>
+          <p className="kicker">{content?.["hero_kicker"] ?? "LIVE VOTING"}</p>
           <h1 className="mt-4 max-w-2xl text-4xl leading-tight sm:text-5xl">
-            {content?.hero_title ?? "Vote for your favourite model"}
+            {content?.["hero_title"] ?? "Vote for your favourite model"}
           </h1>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            {content?.hero_subtitle ??
+            {content?.["hero_subtitle"] ??
               "Choose a competition below, meet every contestant, and cast your votes."}
           </p>
           <p className="mt-3 text-sm font-medium text-accent">
