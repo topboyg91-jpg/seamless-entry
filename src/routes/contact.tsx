@@ -50,9 +50,9 @@ function ContactPage() {
           Questions about a show, casting or partnerships? Send us a note and the team will reply.
         </p>
         <p className="mt-6 text-sm text-muted-foreground">
-          Email: <span className="text-foreground">{content?.contact_email}</span>
+          Email: <span className="text-foreground">{content?.["contact_email"]}</span>
           <br />
-          Address: <span className="text-foreground">{content?.contact_address}</span>
+          Address: <span className="text-foreground">{content?.["contact_address"]}</span>
         </p>
 
         <form onSubmit={onSubmit} className="surface-card mt-8 space-y-4 p-6">

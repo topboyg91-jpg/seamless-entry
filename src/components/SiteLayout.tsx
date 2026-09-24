@@ -13,7 +13,7 @@ const navItems = [
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   const { data: content } = useQuery(siteContentQuery);
-  const brand = content?.brand_name ?? "Westgate Arena";
+  const brand = content?.["brand_name"] ?? "Westgate Arena";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -44,7 +44,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         <div className="mx-auto max-w-6xl space-y-2 px-6 py-10">
           <p className="font-display font-bold">{brand}</p>
           <p className="text-sm text-muted-foreground">
-            {content?.footer_tagline ?? "Live modelling competitions and audience voting in Nairobi, Kenya."}
+            {content?.["footer_tagline"] ?? "Live modelling competitions and audience voting in Nairobi, Kenya."}
           </p>
           <Link to="/admin" className="inline-block text-sm text-muted-foreground hover:text-foreground">
             Admin

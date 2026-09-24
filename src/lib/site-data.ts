@@ -113,7 +113,7 @@ export const eventsQuery = {
 };
 
 export function votePrice(content: Record<string, string> | undefined) {
-  const raw = Number(content?.vote_price ?? 10);
+  const raw = Number(content?.["vote_price"] ?? 10);
   return Number.isFinite(raw) && raw > 0 ? raw : 10;
 }
 

@@ -46,8 +46,8 @@ function AboutPage() {
     <SiteLayout>
       <section className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-4xl">About us</h1>
-        <p className="mt-6 text-muted-foreground">{content?.about_intro}</p>
-        <p className="mt-4 text-muted-foreground">{content?.about_second}</p>
+        <p className="mt-6 text-muted-foreground">{content?.["about_intro"]}</p>
+        <p className="mt-4 text-muted-foreground">{content?.["about_second"]}</p>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-3">
           {pillars.map((p) => (
