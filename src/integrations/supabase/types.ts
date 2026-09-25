@@ -161,6 +161,7 @@ export type Database = {
           phone: string | null
           quantity: number
           status: string
+          transaction_id: string | null
         }
         Insert: {
           amount?: number
@@ -171,6 +172,7 @@ export type Database = {
           phone?: string | null
           quantity?: number
           status?: string
+          transaction_id?: string | null
         }
         Update: {
           amount?: number
@@ -181,6 +183,7 @@ export type Database = {
           phone?: string | null
           quantity?: number
           status?: string
+          transaction_id?: string | null
         }
         Relationships: [
           {
