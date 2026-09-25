@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { SiteLayout } from "@/components/SiteLayout";
-import { supabase } from "@/integrations/supabase/client";
+import { getVoteStatus, startVotePayment } from "@/lib/payments.functions";
 import {
   eventCover,
   fetchEventBySlug,
@@ -160,22 +160,35 @@ function ModelCard({
 
   const share = totalVotes > 0 ? Math.round((model.votes / totalVotes) * 100) : 0;
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   async function pay(e: React.FormEvent) {
     e.preventDefault();
     setStatus("paying");
-    const { error } = await supabase.from("votes").insert({
-      event_id: event.id,
-      model_id: model.id,
-      quantity,
-      amount: quantity * price,
-      phone,
-    });
-    if (error) {
+    setErrorMsg("");
+    const res = await startVotePayment({ data: { modelId: model.id, quantity, phone } });
+    if (!res.ok) {
+      setErrorMsg(res.error);
       setStatus("error");
       return;
     }
-    setStatus("done");
-    await queryClient.invalidateQueries({ queryKey: ["models"] });
+    // Wait up to ~2 minutes for M-Pesa confirmation
+    for (let i = 0; i < 40; i++) {
+      await new Promise((r) => setTimeout(r, 3000));
+      const { status: s } = await getVoteStatus({ data: { voteId: res.voteId } });
+      if (s === "paid") {
+        setStatus("done");
+        await queryClient.invalidateQueries({ queryKey: ["models"] });
+        return;
+      }
+      if (s === "failed") {
+        setErrorMsg("Payment was cancelled or failed. No votes were added.");
+        setStatus("error");
+        return;
+      }
+    }
+    setErrorMsg("We didn't get a confirmation yet. If you paid, your votes will appear shortly.");
+    setStatus("error");
   }
 
   return (
@@ -272,11 +285,9 @@ function ModelCard({
               />
             </div>
             <button type="submit" className="btn-primary w-full" disabled={status === "paying"}>
-              {status === "paying" ? "Processing…" : `Pay ${formatKsh(quantity * price)} with M-Pesa`}
+              {status === "paying" ? "Check your phone & enter PIN…" : `Pay ${formatKsh(quantity * price)} with M-Pesa`}
             </button>
-            {status === "error" ? (
-              <p className="text-sm text-destructive">Vote failed. Please try again.</p>
-            ) : null}
+            {status === "error" ? <p className="text-sm text-destructive">{errorMsg}</p> : null}
           </form>
         )}
       </div>
